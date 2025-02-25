@@ -1,13 +1,57 @@
 import React, { useState } from 'react';
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Button, Input, VStack } from "@chakra-ui/react";
+import { Toaster, toaster } from "../components/ui/toaster";
 import { PasswordInput } from "../components/ui/password-input";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     
-    const submitHandler=()=>{}
+    const submitHandler = async () => { 
+        setLoading(true)
+        if ( !email || !password) {
+            toaster.create({
+                title: "Please fill all the fields",
+                type: "warning",
+                duration: 5000
+            });
+            setLoading(false)
+            return
+        }
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json', // Ensure the correct content type
+                }
+            };
+
+            const { data } = await axios.post("api/user/login", { email, password }, config);
+            toaster.success({
+                title: "Login Successful",  
+                duration: 5000
+            });
+
+            localStorage.setItem("UserInfo", JSON.stringify(data));
+            setLoading(false);
+            navigate('/chats');
+            
+        } catch (error) {
+            toaster.create({
+                title: "Error Occured!",
+                description: error.response.data.message,
+                type: "error",
+                duration: 5000
+            });
+            setLoading(false)    
+            
+        }
+    }
 
     return (
         <VStack spacing='5px'>
@@ -31,6 +75,7 @@ function Login() {
             >
                     Get Guest User Credentials
             </Button>
+            <Toaster />
             
                 
 

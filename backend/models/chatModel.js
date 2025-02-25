@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const chatModel = mongoose.Schema(
     {
-        chatName: { type: String, trim: true },
+        chatName: { type: String, unique: true, trim: true },
         isGroupChat: { type: Boolean, default: false },
         users: [{
             type: mongoose.Schema.ObjectId,
@@ -16,9 +16,7 @@ const chatModel = mongoose.Schema(
         groupAdmin: {
             type: mongoose.Schema.ObjectId,
             ref: "User"
-        }
-
-            
+        }   
     },
     {
         timestamps: true

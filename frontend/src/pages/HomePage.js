@@ -14,7 +14,7 @@ const HomePage = () => {
         borderRadius="lg"
         borderWidth='1px'
         backgroundColor={'white'}>
-        <Text fontSize="4xl" fontFamily="Work sans">Talk-A-Tive</Text>
+        <Text fontSize="4xl" fontFamily="Work sans">Talko</Text>
       </Box>
       <Box bg="white"
         justifyContent='center'
@@ -22,7 +22,7 @@ const HomePage = () => {
         borderRadius="lg"
         borderWidth='1px' >
         <Flex minH="dvh">
-          <Tabs.Root defaultValue="1" width="full">
+          <Tabs.Root defaultValue="Login" width="full">
             <Tabs.List mb='1em'>
               <Tabs.Trigger width="50%" justifyContent='center' key={"Login"} value={"Login"}>
                   Login
