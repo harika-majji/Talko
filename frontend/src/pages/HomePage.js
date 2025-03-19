@@ -1,9 +1,29 @@
-import React from 'react';
-import { Container, Box, Text, Flex, Tabs } from "@chakra-ui/react";
-import SignUp from './SignUp';
-import Login from './Login';
+import React, { useEffect } from 'react';
+import {
+  Box,
+  Container,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
+import SignUp from '../components/authentication/SignUp';
+import Login from '../components/authentication/Login';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if(userInfo) {
+      navigate('/chats');
+    }
+    
+  },[navigate])
   return (  
     <Container maxW='2xl' centerContent>
       <Box
@@ -21,53 +41,20 @@ const HomePage = () => {
         p={4} w="100%"
         borderRadius="lg"
         borderWidth='1px' >
-        <Flex minH="dvh">
-          <Tabs.Root defaultValue="Login" width="full">
-            <Tabs.List mb='1em'>
-              <Tabs.Trigger width="50%" justifyContent='center' key={"Login"} value={"Login"}>
-                  Login
-              </Tabs.Trigger>
-              <Tabs.Trigger width="50%" justifyContent='center' key={"Sign Up"} value={"Sign Up"}>
-                  Sign Up
-              </Tabs.Trigger>
-            </Tabs.List>
-            <Box pos="relative" minH="200px" width="full">
-              <Tabs.Content
-                  key={"1"}
-                  value={"Login"}
-                  position="absolute"
-                  inset="0"
-                  _open={{
-                    animationName: "fade-in, scale-in",
-                    animationDuration: "300ms",
-                  }}
-                  _closed={{
-                    animationName: "fade-out, scale-out",
-                    animationDuration: "120ms",
-                  }}
-                >
-                  <Login/>
-              </Tabs.Content>
-              <Tabs.Content
-                  key={"2"}
-                  value={"Sign Up"}
-                  position="absolute"
-                  inset="0"
-                  _open={{
-                    animationName: "fade-in, scale-in",
-                    animationDuration: "300ms",
-                  }}
-                  _closed={{
-                    animationName: "fade-out, scale-out",
-                    animationDuration: "120ms",
-                  }}
-                >
-                  <SignUp/>
-              </Tabs.Content>
-            </Box>
-          </Tabs.Root>
-        </Flex>
-
+          <Tabs isFitted variant="soft-rounded">
+          <TabList mb="1em">
+            <Tab>Login</Tab>
+            <Tab>Sign Up</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Login />
+            </TabPanel>
+            <TabPanel>
+              <SignUp />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
 
     </Container>
